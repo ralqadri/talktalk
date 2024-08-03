@@ -1,13 +1,10 @@
 import express from "express";
 import apiRoutes from "./api";
 import cors from "cors";
-
-// const express = require("express");
-// const apiRoutes = require("./api");
-// const cors = require("cors");
+import config from "../config.json";
 
 const app = express();
-const PORT = 3000;
+const PORT = config.backend.port;
 
 app.use(express.json());
 app.use(cors());
