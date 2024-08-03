@@ -91,7 +91,7 @@ router.get("/api/posts/:thread_id", (req, res) => {
 	const query = `SELECT * FROM posts WHERE thread_id = ?`;
 	const params = [req.params.thread_id];
 
-	db.get(query, params, (err: Error | null, row: post) => {
+	db.all(query, params, (err: Error | null, rows: post[]) => {
 		if (err) {
 			return res.status(500).json({
 				message: `GET /api/posts/${params[0]} failed!`,
@@ -99,11 +99,11 @@ router.get("/api/posts/:thread_id", (req, res) => {
 			});
 		}
 
-		if (!row) {
+		if (!rows) {
 			return res.status(404).json({ error: `Thread ${params[0]} not found!` });
 		}
 
-		res.status(200).json(row);
+		res.status(200).json({ posts: rows });
 	});
 });
 
