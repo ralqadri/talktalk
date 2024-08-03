@@ -92,4 +92,30 @@ router.post("/api/posts/:thread_id", (req, res) => {
 	});
 });
 
+// api: get posts in specific thread
+router.get("/api/posts/:thread_id", (req, res) => {
+	const query = `SELECT * FROM posts WHERE thread_id = ?`;
+	const params = [req.params.thread_id];
+
+	db.get(query, params, (err, row) => {
+		if (err) {
+			return res.status(500).json({
+				message: `GET /api/posts/${params[0]} failed!`,
+				error: err.message,
+			});
+		}
+
+		if (!row) {
+			return res.status(404).json({ error: `Thread ${params[0]} not found!` });
+		}
+
+		res.status(200).json(row);
+	});
+});
+
+// api: get all posts in all threads
+// router.get("/api/posts/", (req, res) => {
+// 	const query =
+// });
+
 module.exports = router;
