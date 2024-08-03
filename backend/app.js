@@ -2,8 +2,14 @@ const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 
 const app = express();
-const port = 3000;
-const db = new sqlite3.Database("board.db");
+const PORT = 3000;
+const db = new sqlite3.Database("board.db", (err) => {
+	if (err) {
+		console.error(`Error loading database: ${err.message}`);
+	} else {
+		console.log("Connected to the database.");
+	}
+});
 // const db = new sqlite3.Database(":memory:"); // temporary database
 
 app.use(express.json());
@@ -99,6 +105,6 @@ app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
 
-app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
+app.listen(PORT, () => {
+	console.log(`Server listening on port ${PORT}`);
 });
