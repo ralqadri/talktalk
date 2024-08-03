@@ -1,22 +1,9 @@
 import express from "express";
 import db from "./db";
-import { Interface } from "readline";
+import { thread } from "../types/threads";
+import { post } from "../types/posts";
 
 const router = express.Router();
-
-interface thread {
-	id: number;
-	title: string;
-	content: string;
-	created_at: string;
-}
-
-interface post {
-	id: number;
-	thread_id: number;
-	content: string;
-	created_at: string;
-}
 
 // api: get all threads
 router.get("/api/threads", (req, res) => {
