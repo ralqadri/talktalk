@@ -67,28 +67,20 @@ router.post("/api/threads", (req, res) => {
 	console.log(`api: creating new thread // thread created! // title: ${title}`);
 });
 
-// api: create new post in a thread
-router.post("/api/posts/:thread_id", (req, res) => {
-	const { content } = req.body;
-	const query = `INSERT INTO posts (thread_id, content) VALUES (?, ?)`;
-	const params = [req.params.thread_id, content];
+// api: get all posts in all threads
+router.get("/api/posts/", (req, res) => {
+	const query = "SELECT * FROM posts ORDER BY thread_id ASC, id ASC";
 
-	console.log(`api: creating new post in thread ${params[0]}`);
-
-	db.run(query, params, (err, row) => {
+	db.all(query, [], (err, rows) => {
 		if (err) {
-			return res
-				.status(500)
-				.json({ message: "POST /api/posts/ failed!", error: err.message });
+			return res.status(500).json({ error: err.message });
 		}
 
-		res.status(200).json({
-			message: `New post on thread ${params[0]} created succesfully!`,
-			content: {
-				thread_id: params[0],
-				content: content,
-			},
-		});
+		if (!rows) {
+			return res.status(404).json({ error: "No posts found!" });
+		}
+
+		res.status(200).json({ posts: rows });
 	});
 });
 
@@ -113,9 +105,29 @@ router.get("/api/posts/:thread_id", (req, res) => {
 	});
 });
 
-// api: get all posts in all threads
-// router.get("/api/posts/", (req, res) => {
-// 	const query =
-// });
+// api: create new post in a thread
+router.post("/api/posts/:thread_id", (req, res) => {
+	const { content } = req.body;
+	const query = `INSERT INTO posts (thread_id, content) VALUES (?, ?)`;
+	const params = [req.params.thread_id, content];
+
+	console.log(`api: creating new post in thread ${params[0]}`);
+
+	db.run(query, params, (err, row) => {
+		if (err) {
+			return res
+				.status(500)
+				.json({ message: "POST /api/posts/ failed!", error: err.message });
+		}
+
+		res.status(200).json({
+			message: `New post on thread ${params[0]} created succesfully!`,
+			content: {
+				thread_id: params[0],
+				content: content,
+			},
+		});
+	});
+});
 
 module.exports = router;
