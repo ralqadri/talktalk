@@ -1,13 +1,28 @@
-const express = require("express");
-const db = require("./db");
+import express from "express";
+import db from "./db";
+import { Interface } from "readline";
 
 const router = express.Router();
+
+interface thread {
+	id: number;
+	title: string;
+	content: string;
+	created_at: string;
+}
+
+interface post {
+	id: number;
+	thread_id: number;
+	content: string;
+	created_at: string;
+}
 
 // api: get all threads
 router.get("/api/threads", (req, res) => {
 	const query = `SELECT * FROM threads`;
 
-	db.all(query, [], (err, rows) => {
+	db.all(query, [], (err: Error | null, rows: thread[]) => {
 		if (err) {
 			return res
 				.status(500)
@@ -23,7 +38,7 @@ router.get("/api/threads/:id", (req, res) => {
 	const query = `SELECT * FROM threads WHERE id = ?`;
 	const params = [req.params.id];
 
-	db.get(query, params, (err, row) => {
+	db.get(query, params, (err: Error | null, row: thread) => {
 		if (err) {
 			res.status(500).json({
 				message: `GET /api/threads/${params[0]} failed!`,
@@ -49,7 +64,7 @@ router.post("/api/threads", (req, res) => {
 		`api: creating new thread // title: ${title} // content: ${content}`
 	);
 
-	db.run(query, params, (err) => {
+	db.run(query, params, (err: Error | null) => {
 		if (err) {
 			return res
 				.status(500)
@@ -71,7 +86,7 @@ router.post("/api/threads", (req, res) => {
 router.get("/api/posts/", (req, res) => {
 	const query = "SELECT * FROM posts ORDER BY thread_id ASC, id ASC";
 
-	db.all(query, [], (err, rows) => {
+	db.all(query, [], (err: Error | null, rows: post[]) => {
 		if (err) {
 			return res.status(500).json({ error: err.message });
 		}
@@ -89,7 +104,7 @@ router.get("/api/posts/:thread_id", (req, res) => {
 	const query = `SELECT * FROM posts WHERE thread_id = ?`;
 	const params = [req.params.thread_id];
 
-	db.get(query, params, (err, row) => {
+	db.get(query, params, (err: Error | null, row: post) => {
 		if (err) {
 			return res.status(500).json({
 				message: `GET /api/posts/${params[0]} failed!`,
@@ -113,7 +128,7 @@ router.post("/api/posts/:thread_id", (req, res) => {
 
 	console.log(`api: creating new post in thread ${params[0]}`);
 
-	db.run(query, params, (err, row) => {
+	db.run(query, params, (err: Error | null) => {
 		if (err) {
 			return res
 				.status(500)
@@ -130,4 +145,4 @@ router.post("/api/posts/:thread_id", (req, res) => {
 	});
 });
 
-module.exports = router;
+export default router;
