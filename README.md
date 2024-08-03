@@ -1,2 +1,2 @@
 # talktalk
-An anonymous textboard/forum project, based on Express.js
+An anonymous textboard/forum project, based on Express.js.
