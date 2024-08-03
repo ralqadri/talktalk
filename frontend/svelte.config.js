@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter(),
 
 		alias: {
-			"$types": "../types",
+			"$customTypes": "../types",
 		}
 	},
 };
