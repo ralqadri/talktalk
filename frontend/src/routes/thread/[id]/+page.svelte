@@ -8,10 +8,7 @@
 
 	async function createPost() {
 		if (!content) {
-			// TODO: Maybe bring back this popup (or make a handler) when content is empty
-			// Currently it's removed to accomodate the refresh button functionality
-			// and not let the alert pop up when refresh is clicked
-			// alert("Content is required");
+			empty_error = "Content is required!";
 			return;
 		}
 
@@ -40,6 +37,7 @@
 			console.error(data.error);
 			error = `Failed to create post: ${data.error}`;
 		}
+		empty_error = "";
 	}
 
 	function handleCtrlEnter(event: KeyboardEvent) {
@@ -53,6 +51,7 @@
 	}
 
 	let content = "";
+	let empty_error = "";
 </script>
 
 <div class="thread-container">
@@ -78,6 +77,9 @@
 			<button class="refresh" on:click={() => window.location.reload()}
 				>Refresh</button
 			>
+			{#if empty_error}
+				<span>{empty_error}</span>
+			{/if}
 		</form>
 	</div>
 </div>
