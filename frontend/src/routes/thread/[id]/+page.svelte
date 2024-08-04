@@ -42,6 +42,16 @@
 		}
 	}
 
+	function handleCtrlEnter(event: KeyboardEvent) {
+		if (event.ctrlKey && event.key === "Enter") {
+			event.preventDefault();
+			let form: HTMLFormElement | null = document.querySelector("form");
+			if (form) {
+				createPost();
+			}
+		}
+	}
+
 	let content = "";
 </script>
 
@@ -62,6 +72,7 @@
 				id="content"
 				placeholder="type a reply here..."
 				bind:value={content}
+				on:keydown={handleCtrlEnter}
 			></textarea>
 			<button type="submit">Post</button>
 			<button class="refresh" on:click={() => window.location.reload()}
