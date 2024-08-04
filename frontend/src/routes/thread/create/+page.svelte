@@ -2,6 +2,9 @@
 	async function createThread() {
 		if (!title || !content) {
 			error = "Title and content are required";
+			setTimeout(() => {
+				error = "";
+			}, 3000);
 			return;
 		}
 

@@ -9,6 +9,9 @@
 	async function createPost() {
 		if (!content) {
 			empty_error = "Content is required!";
+			setTimeout(() => {
+				empty_error = "";
+			}, 3000);
 			return;
 		}
 
