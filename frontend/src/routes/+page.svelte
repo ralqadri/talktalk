@@ -7,6 +7,7 @@ const { error, threads } = data;
 
 <h1>TalkTalk</h1>
 <div class="threads_section">
+    <a href="/thread/create">Create a new thread</a>
     <h2>Threads</h2>
     {#if error}
         <p>{error}</p>
