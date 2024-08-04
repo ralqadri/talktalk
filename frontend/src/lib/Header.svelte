@@ -1,28 +1,10 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import Nav from "./Nav.svelte";
-	let subtitles = [
-		"talk about anything",
-		"talk about everything",
-		"talk about nothing",
-		"there's nothing to talk about!",
-	];
-
-	export let title: string = "talktalk!!";
-	export let subtitle: string =
-		subtitles[Math.floor(Math.random() * subtitles.length)];
-
-	// onMount(() => {});
 </script>
 
 <div class="header">
 	<div class="banner">
 		<!-- TODO: Put image(s) for banner(s) here later -->
 		<img src="" alt="placeholder banner" />
-	</div>
-	<div class="title">
-		<h1>{title}</h1>
-		<span>{subtitle}</span>
 	</div>
 </div>
 

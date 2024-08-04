@@ -1,15 +1,38 @@
-<div class="page-container">
-	<div class="header"></div>
+<script lang="ts">
+	import Nav from "../lib/Nav.svelte";
+	import Header from "../lib/Header.svelte";
+</script>
 
+<Nav />
+<div class="page-container">
 	<div class="slot-container">
 		<slot></slot>
 	</div>
 </div>
 
 <style>
+	:global(*) {
+		color: white;
+	}
+
+	:global(a) {
+		text-decoration: none;
+		color: #ac9bb0;
+	}
+
+	:global(a:hover) {
+		color: #6f99b4;
+	}
+
+	:global(*, *::before, *::after) {
+		box-sizing: border-box;
+	}
+
 	:global(body) {
 		font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 		margin: 0;
+
+		background: #1d1d1d;
 	}
 
 	.page-container {
@@ -17,8 +40,6 @@
 		justify-content: center;
 	}
 	.slot-container {
-		border: 1px solid red;
-
 		width: 80%;
 		height: auto;
 

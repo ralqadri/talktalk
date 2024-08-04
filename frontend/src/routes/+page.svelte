@@ -6,9 +6,7 @@
 	const { error, threads } = data;
 </script>
 
-<Header />
 <div class="threads_section">
-	<a href="/thread/create">Create a new thread</a>
 	<h2>Threads</h2>
 	{#if error}
 		<p>{error}</p>
