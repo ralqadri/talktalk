@@ -74,7 +74,7 @@
 				on:keydown={handleCtrlEnter}
 			></textarea>
 			<button type="submit">Post</button>
-			<button class="refresh" on:click={() => window.location.reload()}
+			<button class="refresh" on:click|preventDefault={() => window.location.reload()}
 				>Refresh</button
 			>
 			{#if empty_error}
