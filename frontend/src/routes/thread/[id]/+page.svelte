@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import type { PageData } from "./$types";
 	import PostCard from "$lib/PostCard.svelte";
 	import ThreadCard from "$lib/ThreadCard.svelte";
@@ -61,7 +62,7 @@
 	<ThreadCard {threadInfo} />
 
 	{#if error}
-		<p>{error}</p>
+		<p transition:fade>{error}</p>
 	{:else}
 		{#each posts as post}
 			<PostCard {post} />
@@ -81,7 +82,7 @@
 				>Refresh</button
 			>
 			{#if empty_error}
-				<span>{empty_error}</span>
+				<span transition:fade>{empty_error}</span>
 			{/if}
 		</form>
 	</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	async function createThread() {
 		if (!title || !content) {
 			error = "Title and content are required";
@@ -40,5 +41,5 @@
 	<button type="submit">Create</button>
 </form>
 {#if error}
-	<p>{error}</p>
+	<p transition:fade>{error}</p>
 {/if}
