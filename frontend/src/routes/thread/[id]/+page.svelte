@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
+	import PostCard from "$lib/PostCard.svelte";
+	import ThreadCard from "$lib/ThreadCard.svelte";
 	export let data: PageData;
 
 	let { error, posts, threadInfo } = data;
@@ -43,34 +45,14 @@
 	let content = "";
 </script>
 
-<div class="thread">
-	<div class="thread-card">
-		<!-- TODO: Rename `threadInfo` to make it consistent like `post` -->
-		<div class="meta thread-meta">
-			ID: #{threadInfo.id} —
-			{new Date(threadInfo.created_at).toLocaleString()}
-		</div>
-		<div class="thread-info">
-			<div class="thread-title">
-				<h1>{threadInfo.title}</h1>
-			</div>
-			<div class="thread-content">
-				<h2>{threadInfo.content}</h2>
-			</div>
-		</div>
-	</div>
+<div class="thread-container">
+	<ThreadCard {threadInfo} />
 
 	{#if error}
 		<p>{error}</p>
 	{:else}
 		{#each posts as post}
-			<div class="post-card">
-				<div class="meta post-meta">
-					ID: #{post.id} —
-					{new Date(post.created_at).toLocaleString()}
-				</div>
-				<div class="post-content">{post.content}</div>
-			</div>
+			<PostCard {post} />
 		{/each}
 	{/if}
 
@@ -90,7 +72,7 @@
 </div>
 
 <style>
-	.thread {
+	.thread-container {
 		margin: 0;
 		padding: 0;
 		width: 100%;
@@ -99,31 +81,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
-	}
-
-	.meta {
-		font-size: 0.75em;
-		color: var(--meta-text);
-	}
-
-	.thread-card {
-		background: var(--card-background);
-		border: 1px solid var(--thread-border);
-
-		margin: 1em 0 1em 0;
-		padding: 1em;
-	}
-
-	.thread-title {
-		color: var(--thread-title);
-	}
-
-	.post-card {
-		background: var(--card-background);
-		border: 1px solid var(--dark-border);
-
-		/* margin: 1em 0 1em 0; */
-		padding: 1em;
 	}
 
 	.post-create {
