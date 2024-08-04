@@ -18,6 +18,7 @@
 		--nav-background: #333;
 		--meta-background: #1f1f1f;
 		--card-background: #272727;
+		--input-background: #1a1a1a;
 		--thread-border: #9390c9;
 		--dark-border: #666;
 		--link: #ac9bb0;

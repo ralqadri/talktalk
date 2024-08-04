@@ -6,7 +6,10 @@
 
 	async function createPost() {
 		if (!content) {
-			alert("Content is required");
+			// TODO: Maybe bring back this popup (or make a handler) when content is empty
+			// Currently it's removed to accomodate the refresh button functionality
+			// and not let the alert pop up when refresh is clicked
+			// alert("Content is required");
 			return;
 		}
 
@@ -41,7 +44,6 @@
 </script>
 
 <div class="thread">
-	<!-- <p>{new Date(threadInfo.created_at).toLocaleString()}</p> -->
 	<div class="thread-card">
 		<!-- TODO: Rename `threadInfo` to make it consistent like `post` -->
 		<div class="meta thread-meta">
@@ -61,12 +63,6 @@
 	{#if error}
 		<p>{error}</p>
 	{:else}
-		<div class="post-create">
-			<form on:submit|preventDefault={createPost}>
-				<textarea id="content" bind:value={content}></textarea>
-				<button type="submit">Post</button>
-			</form>
-		</div>
 		{#each posts as post}
 			<div class="post-card">
 				<div class="meta post-meta">
@@ -77,6 +73,20 @@
 			</div>
 		{/each}
 	{/if}
+
+	<div class="post-create">
+		<form on:submit|preventDefault={createPost}>
+			<textarea
+				id="content"
+				placeholder="type a reply here..."
+				bind:value={content}
+			></textarea>
+			<button type="submit">Post</button>
+			<button class="refresh" on:click={() => window.location.reload()}
+				>Refresh</button
+			>
+		</form>
+	</div>
 </div>
 
 <style>
@@ -114,5 +124,41 @@
 
 		/* margin: 1em 0 1em 0; */
 		padding: 1em;
+	}
+
+	.post-create {
+		margin-top: 2em;
+
+		display: flex;
+		flex-direction: column;
+	}
+
+	.post-create textarea {
+		width: 100%;
+		height: 5em;
+		background: var(--input-background);
+		color: var(--text);
+		font-family: inherit;
+		font-size: inherit;
+		resize: none;
+	}
+
+	.post-create button {
+		width: 20%;
+		background: var(--input-background);
+		color: var(--text);
+		border: 1px solid var(--dark-border);
+
+		padding: 0.5em;
+		cursor: pointer;
+
+		margin-left: auto;
+	}
+	.post-create button.refresh {
+		width: 10%;
+	}
+
+	.post-create button:hover {
+		border: 1px solid white;
 	}
 </style>
