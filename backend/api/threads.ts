@@ -10,9 +10,10 @@ router.get("/api/threads", (req, res) => {
 
 	db.all(query, [], function (err: Error | null, rows: thread[]) {
 		if (err) {
-			return res
+			res
 				.status(500)
 				.json({ message: "GET /api/threads failed!", error: err.message });
+            return;
 		}
 
 		res.status(200).json({ threads: rows });
@@ -30,13 +31,15 @@ router.get("/api/threads/:id", (req, res) => {
 				message: `GET /api/threads/${params[0]} failed!`,
 				error: err.message,
 			});
+            return;
 		}
 
 		if (!row) {
-			return res.status(404).json({ error: `Thread not found!` });
+			res.status(404).json({ error: `Thread not found!` });
+            return;
 		}
 
-		res.status(200).json(row);
+		res.status(200).json({ content: row });
 	});
 });
 
@@ -52,9 +55,10 @@ router.post("/api/threads", (req, res) => {
 
 	db.run(query, params, function (err: Error | null) {
 		if (err) {
-			return res
+			res
 				.status(500)
 				.json({ message: "POST /api/threads/ failed!", error: err.message });
+            return;
 		}
 		console.log(
 			`api: creating new thread // thread created! // title: ${title}`

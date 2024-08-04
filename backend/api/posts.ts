@@ -10,11 +10,13 @@ router.get("/api/posts/", (req, res) => {
 
 	db.all(query, [], function (err: Error | null, rows: post[]) {
 		if (err) {
-			return res.status(500).json({ error: err.message });
+			res.status(500).json({ error: err.message });
+            return;
 		}
 
 		if (!rows) {
-			return res.status(404).json({ error: "No posts found!" });
+			res.status(404).json({ error: "No posts found!" });
+            return;
 		}
 
 		res.status(200).json({ posts: rows });
@@ -28,14 +30,16 @@ router.get("/api/posts/:thread_id", (req, res) => {
 
 	db.all(query, params, function (err: Error | null, rows: post[]) {
 		if (err) {
-			return res.status(500).json({
+			res.status(500).json({
 				message: `GET /api/posts/${params[0]} failed!`,
 				error: err.message,
 			});
+            return;
 		}
 
 		if (!rows) {
-			return res.status(404).json({ error: `Thread ${params[0]} not found!` });
+			res.status(404).json({ error: `Thread ${params[0]} not found!` });
+            return;
 		}
 
 		res.status(200).json({ posts: rows });
@@ -54,9 +58,10 @@ router.post("/api/posts/:thread_id", (req, res) => {
 
 	db.run(query, params, function (err: Error | null) {
 		if (err) {
-			return res
+			res
 				.status(500)
 				.json({ message: "POST /api/posts/ failed!", error: err.message });
+            return;
 		}
 
 		console.log(
