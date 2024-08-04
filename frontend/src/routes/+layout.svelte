@@ -13,13 +13,17 @@
 <style>
 	:global(:root) {
 		--text: #ddd;
+		--subtext: #666;
 		--background: #1d1d1d;
 		--nav-background: #333;
+		--meta-background: #1f1f1f;
 		--card-background: #272727;
+		--thread-border: #9390c9;
 		--dark-border: #666;
 		--link: #ac9bb0;
 		--link-hover: #6f99b4;
-		--meta-title: #9390c9;
+		--thread-title: #9390c9;
+		--meta-text: #9e9e9e;
 	}
 
 	:global(body) {
@@ -61,8 +65,6 @@
 		justify-content: center;
 	}
 	.slot-container {
-		/* border: 1px solid; */
-
 		width: 80%;
 		height: auto;
 		margin: 2em;

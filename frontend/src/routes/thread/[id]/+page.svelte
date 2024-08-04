@@ -43,11 +43,12 @@
 <div class="thread">
 	<!-- <p>{new Date(threadInfo.created_at).toLocaleString()}</p> -->
 	<div class="thread-card">
+		<!-- TODO: Rename `threadInfo` to make it consistent like `post` -->
 		<div class="meta thread-meta">
 			ID: #{threadInfo.id} —
 			{new Date(threadInfo.created_at).toLocaleString()}
 		</div>
-		<div class="thread-content">
+		<div class="thread-info">
 			<div class="thread-title">
 				<h1>{threadInfo.title}</h1>
 			</div>
@@ -60,24 +61,18 @@
 	{#if error}
 		<p>{error}</p>
 	{:else}
-		<!-- <div class="post-create">
+		<div class="post-create">
 			<form on:submit|preventDefault={createPost}>
 				<textarea id="content" bind:value={content}></textarea>
 				<button type="submit">Post</button>
 			</form>
-		</div> -->
+		</div>
 		{#each posts as post}
-			<div class="post">
+			<div class="post-card">
 				<div class="meta post-meta">
-					ID: #{post.id} - {new Date(post.created_at).toLocaleString()}
+					ID: #{post.id} —
+					{new Date(post.created_at).toLocaleString()}
 				</div>
-				<!-- <div class="meta post-meta">
-                    ID: #{threadInfo.id} - {new Date(threadInfo.created_at).toLocaleString()}
-					<span class="post-id">{post.id}</span>
-					<span class="post-date"
-						>{new Date(post.created_at).toLocaleString()}</span
-					>
-				</div> -->
 				<div class="post-content">{post.content}</div>
 			</div>
 		{/each}
@@ -96,18 +91,28 @@
 		gap: 1em;
 	}
 
+	.meta {
+		font-size: 0.75em;
+		color: var(--meta-text);
+	}
+
 	.thread-card {
 		background: var(--card-background);
-		border: 1px solid var(--dark-border);
+		border: 1px solid var(--thread-border);
 
-		margin: 1em 0 2em 0;
+		margin: 1em 0 1em 0;
 		padding: 1em;
 	}
 
-	.thread-meta {
+	.thread-title {
+		color: var(--thread-title);
 	}
 
-	.thread-title {
-		color: var(--meta-title);
+	.post-card {
+		background: var(--card-background);
+		border: 1px solid var(--dark-border);
+
+		/* margin: 1em 0 1em 0; */
+		padding: 1em;
 	}
 </style>

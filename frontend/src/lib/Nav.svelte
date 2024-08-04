@@ -66,7 +66,7 @@
 	.subtitle {
 		font-size: 1em;
 		font-style: italic;
-		color: #666;
+		color: var(--subtext);
 		margin-left: auto;
 	}
 </style>
