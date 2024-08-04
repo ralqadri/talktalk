@@ -35,9 +35,13 @@
 		height: 3em;
 		padding: 0 1em 0 1em;
 
-		background-color: #333;
-		border-bottom: 1px solid #666;
+		background-color: var(--background);
+		border-bottom: 1px solid var(--dark-border);
 		color: white;
+
+		position: sticky;
+		top: 0;
+		z-index: 1000;
 	}
 
 	@media (max-width: 600px) {
