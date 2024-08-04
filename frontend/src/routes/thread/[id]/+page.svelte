@@ -161,4 +161,15 @@
 	.post-create button:hover {
 		border: 1px solid white;
 	}
+
+	@media (max-width: 1000px) {
+		.post-create {
+			gap: 0.25em;
+		}
+		.post-create button,
+		.post-create button.refresh {
+			width: 100%;
+			margin-bottom: 0.15em;
+		}
+	}
 </style>
