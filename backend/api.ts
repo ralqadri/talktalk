@@ -51,13 +51,15 @@ router.post("/api/threads", (req, res) => {
 		`api: creating new thread // title: ${title} // content: ${content}`
 	);
 
-	db.run(query, params, function (err: Error | null)  {
+	db.run(query, params, function (err: Error | null) {
 		if (err) {
 			return res
 				.status(500)
 				.json({ message: "POST /api/threads/ failed!", error: err.message });
 		}
-		console.log(`api: creating new thread // thread created! // title: ${title}`);
+		console.log(
+			`api: creating new thread // thread created! // title: ${title}`
+		);
 		res.status(200).json({
 			message: "New thread created succesfully!",
 			content: {
@@ -88,7 +90,7 @@ router.get("/api/posts/", (req, res) => {
 
 // api: get posts in specific thread
 router.get("/api/posts/:thread_id", (req, res) => {
-	const query = `SELECT * FROM posts WHERE thread_id = ? ORDER BY id DESC`;
+	const query = `SELECT * FROM posts WHERE thread_id = ? ORDER BY id ASC`;
 	const params = [req.params.thread_id];
 
 	db.all(query, params, function (err: Error | null, rows: post[]) {
@@ -113,7 +115,9 @@ router.post("/api/posts/:thread_id", (req, res) => {
 	const query = `INSERT INTO posts (thread_id, content) VALUES (?, ?)`;
 	const params = [req.params.thread_id, content];
 
-	console.log(`api: creating new post in thread ${params[0]} // content: ${content}`);
+	console.log(
+		`api: creating new post in thread ${params[0]} // content: ${content}`
+	);
 
 	db.run(query, params, function (err: Error | null) {
 		if (err) {
@@ -122,7 +126,9 @@ router.post("/api/posts/:thread_id", (req, res) => {
 				.json({ message: "POST /api/posts/ failed!", error: err.message });
 		}
 
-		console.log(`api: creating new post in thread ${params[0]} // post created! // content: ${content}`);
+		console.log(
+			`api: creating new post in thread ${params[0]} // post created! // content: ${content}`
+		);
 		res.status(200).json({
 			message: `New post on thread ${params[0]} created succesfully!`,
 			content: {
