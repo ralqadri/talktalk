@@ -2,10 +2,13 @@
 import type { PageData } from './$types';
 export let data: PageData;
 
-const { error, posts } = data;
+const { error, posts, threadInfo } = data;
 </script>
 
 <div class="thread">
+    <p>{new Date(threadInfo.created_at).toLocaleString()}</p>
+    <h1>{threadInfo.title} (ID: {threadInfo.id})</h1>
+    <h3>{threadInfo.content}</h3>
     {#if error}
         <p>{error}</p>
     {:else}
