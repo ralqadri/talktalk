@@ -1,5 +1,10 @@
 <script lang="ts">
     async function createThread() {
+        if (!title || !content) {
+            error = "Title and content are required";
+            return;
+        }
+
         const res = await fetch("/api/threads", {
             method: "POST",
             headers: {

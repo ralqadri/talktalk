@@ -71,7 +71,7 @@ router.post("/api/threads", (req, res) => {
 
 // api: get all posts in all threads
 router.get("/api/posts/", (req, res) => {
-	const query = "SELECT * FROM posts ORDER BY thread_id ASC, id ASC";
+	const query = "SELECT * FROM posts ORDER BY thread_id ASC, id DESC";
 
 	db.all(query, [], function (err: Error | null, rows: post[]) {
 		if (err) {
@@ -88,7 +88,7 @@ router.get("/api/posts/", (req, res) => {
 
 // api: get posts in specific thread
 router.get("/api/posts/:thread_id", (req, res) => {
-	const query = `SELECT * FROM posts WHERE thread_id = ?`;
+	const query = `SELECT * FROM posts WHERE thread_id = ? ORDER BY id DESC`;
 	const params = [req.params.thread_id];
 
 	db.all(query, params, function (err: Error | null, rows: post[]) {
@@ -127,6 +127,7 @@ router.post("/api/posts/:thread_id", (req, res) => {
 			message: `New post on thread ${params[0]} created succesfully!`,
 			content: {
 				thread_id: params[0],
+				id: this.lastID,
 				content: content,
 			},
 		});
