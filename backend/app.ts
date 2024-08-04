@@ -1,5 +1,6 @@
 import express from "express";
-import apiRoutes from "./api";
+import threadAPIRoutes from "./api/threads";
+import postAPIRoutes from "./api/posts";
 import cors from "cors";
 import config from "../config.json";
 
@@ -8,7 +9,8 @@ const PORT = config.backend.port;
 
 app.use(express.json());
 app.use(cors());
-app.use(apiRoutes);
+app.use(threadAPIRoutes);
+app.use(postAPIRoutes);
 
 app.get("*", (req, res) => {
 	res.send("You stupid");
