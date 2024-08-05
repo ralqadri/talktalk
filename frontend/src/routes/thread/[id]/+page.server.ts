@@ -1,26 +1,28 @@
 import type { PageServerLoad } from './$types';
-import type { post } from "$customTypes/posts";
-import type { thread } from '$customTypes/threads';
+import { isArray } from '$customTypes';
+import { isPost, type post } from "$customTypes/posts";
+import { isThread, type thread } from '$customTypes/threads';
 import { redirect } from '@sveltejs/kit';
+import { apiFetch } from '$lib';
 
 export const load: PageServerLoad = async ({ params, fetch }) => { 
     let posts: post[] = [];
     let error: string = "";
     let threadInfo: thread;
 
-    const threadRes = await fetch(`/api/threads/${params.id}`);
-    const threadData = await threadRes.json();
+    const threadRes = await apiFetch(fetch, isThread, `/api/threads/${params.id}`);
     if (threadRes.ok)
-        threadInfo = threadData;
-    else
+        threadInfo = threadRes.content;
+    else {
+        console.error(threadRes);
         redirect(302, "/");
+    }
 
-    const postRes = await fetch(`/api/posts/${params.id}`);
-    const postData = await postRes.json();
+    const postRes = await apiFetch(fetch, (obj) => isArray(obj, isPost), `/api/posts/${threadInfo.id}`);
     if (postRes.ok)
-        posts = postData.posts;
+        posts = postRes.content;
     else
-        error = postData.error;
+        error = postRes.error;
 
     return {
         threadInfo,

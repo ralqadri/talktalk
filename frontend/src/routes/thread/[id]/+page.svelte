@@ -3,6 +3,9 @@
 	import type { PageData } from "./$types";
 	import PostCard from "$lib/PostCard.svelte";
 	import ThreadCard from "$lib/ThreadCard.svelte";
+	import { apiFetch } from '$lib';
+	import { isPost } from '$customTypes/posts';
+
 	export let data: PageData;
 
 	let { error, posts, threadInfo } = data;
@@ -16,7 +19,7 @@
 			return;
 		}
 
-		const res = await fetch(`/api/posts/${threadInfo.id}`, {
+		const res = await apiFetch(fetch, isPost, `/api/posts/${threadInfo.id}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -25,21 +28,11 @@
 		});
 
 		if (res.ok) {
-			const { content: newPost } = await res.json();
-			(posts = [
-				...posts,
-				{
-					id: newPost.id,
-					thread_id: newPost.thread_id,
-					content: newPost.content,
-					created_at: new Date().toLocaleString(),
-				},
-			]),
-				(content = "");
+			posts = [res.content, ...posts];
+			content = "";
 		} else {
-			const data = await res.json();
-			console.error(data.error);
-			error = `Failed to create post: ${data.error}`;
+			console.error(res.error);
+			error = `Failed to create post: ${res.error}`;
 		}
 		empty_error = "";
 	}

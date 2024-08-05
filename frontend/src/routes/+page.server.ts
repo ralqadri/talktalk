@@ -1,15 +1,16 @@
 import type { PageServerLoad } from './$types';
-import type { thread } from "$customTypes/threads";
+import { isThread, type thread } from "$customTypes/threads";
+import { apiFetch } from '$lib';
+import { isArray } from '$customTypes';
 
-export const load: PageServerLoad = async ({ fetch }) => { 
+export const load: PageServerLoad = async ({ fetch }) => {
     let threads: thread[] = [];
     let error: string = "";
-    const res = await fetch(`/api/threads`);
-    const data = await res.json();
+    const res = await apiFetch(fetch, (obj) => isArray(obj, isThread), "/api/threads");
     if (res.ok)
-        threads = data.threads;
+        threads = res.content;
     else
-        error = data.error;
+        error = res.error;
 
     return { 
         threads,

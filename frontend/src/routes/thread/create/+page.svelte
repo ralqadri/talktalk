@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { isThread } from '$customTypes/threads';
+	import { apiFetch } from '$lib';
 	import { fade } from 'svelte/transition';
 	async function createThread() {
 		if (!title || !content) {
@@ -9,7 +11,7 @@
 			return;
 		}
 
-		const res = await fetch("/api/threads", {
+		const res = await apiFetch(fetch, isThread, "/api/threads", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -18,12 +20,10 @@
 		});
 
 		if (res.ok) {
-			const { content } = await res.json();
-			window.location.href = `/thread/${content.id}`;
+			window.location.href = `/thread/${res.content.id}`;
 		} else {
-			const data = await res.json();
-			console.error(data.error);
-			error = `Failed to create thread: ${data.error}`;
+			console.error(res.error);
+			error = `Failed to create thread: ${res.error}`;
 		}
 	}
 

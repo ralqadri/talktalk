@@ -57,7 +57,14 @@ router.post("/api/threads", (req, res) => {
 		console.log(
 			`api: creating new thread // thread created! // title: ${title}`
 		);
-		sendSuccessResponse(res, { message: "New thread created succesfully!", content: { id: this.lastID, title, content } });
+
+		const newThread: thread = {
+			id: this.lastID,
+			title,
+			content,
+			created_at: new Date().toISOString(),
+		};
+		sendSuccessResponse(res, { message: "New thread created succesfully!", content: newThread });
 	});
 });
 
