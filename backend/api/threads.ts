@@ -1,6 +1,7 @@
 import express from "express";
 import db from "../db";
 import { thread } from "../../types/threads";
+import { sendErrorResponse, sendSuccessResponse } from "../utils";
 
 const router = express.Router();
 
@@ -10,13 +11,11 @@ router.get("/api/threads", (req, res) => {
 
 	db.all(query, [], function (err: Error | null, rows: thread[]) {
 		if (err) {
-			res
-				.status(500)
-				.json({ message: "GET /api/threads failed!", error: err.message });
+			sendErrorResponse(res, 500, { message: "GET /api/threads failed!", error: err.message });
             return;
 		}
 
-		res.status(200).json({ threads: rows });
+		sendSuccessResponse(res, { message: "Thread list fetched succesfully!", content: rows });
 	});
 });
 
@@ -27,19 +26,16 @@ router.get("/api/threads/:id", (req, res) => {
 
 	db.get(query, params, function (err: Error | null, row: thread) {
 		if (err) {
-			res.status(500).json({
-				message: `GET /api/threads/${params[0]} failed!`,
-				error: err.message,
-			});
+			sendErrorResponse(res, 500, { message: `GET /api/threads/${params[0]} failed!`, error: err.message });
             return;
 		}
 
 		if (!row) {
-			res.status(404).json({ error: `Thread not found!` });
+			sendErrorResponse(res, 404, { message: `Thread ${params[0]} not found!`, error: `Thread ${params[0]} not found!` });
             return;
 		}
 
-		res.status(200).json({ content: row });
+		sendSuccessResponse(res, { message: `Thread ${params[0]} fetched succesfully!`, content: row });
 	});
 });
 
@@ -55,22 +51,13 @@ router.post("/api/threads", (req, res) => {
 
 	db.run(query, params, function (err: Error | null) {
 		if (err) {
-			res
-				.status(500)
-				.json({ message: "POST /api/threads/ failed!", error: err.message });
-            return;
+			sendErrorResponse(res, 500, { message: "POST /api/threads/ failed!", error: err.message });
+			return;
 		}
 		console.log(
 			`api: creating new thread // thread created! // title: ${title}`
 		);
-		res.status(200).json({
-			message: "New thread created succesfully!",
-			content: {
-				id: this.lastID,
-				title: title,
-				content: content,
-			},
-		});
+		sendSuccessResponse(res, { message: "New thread created succesfully!", content: { id: this.lastID, title, content } });
 	});
 });
 

@@ -1,6 +1,7 @@
 import express from "express";
 import db from "../db";
 import { post } from "../../types/posts";
+import { sendErrorResponse, sendSuccessResponse } from "../utils";
 
 const router = express.Router();
 
@@ -10,16 +11,16 @@ router.get("/api/posts/", (req, res) => {
 
 	db.all(query, [], function (err: Error | null, rows: post[]) {
 		if (err) {
-			res.status(500).json({ error: err.message });
+			sendErrorResponse(res, 500, { message: "GET /api/posts/ failed!", error: err.message });
             return;
 		}
 
 		if (!rows) {
-			res.status(404).json({ error: "No posts found!" });
+			sendErrorResponse(res, 404, { message: "No posts found!", error: "No posts found!" });
             return;
 		}
 
-		res.status(200).json({ posts: rows });
+		sendSuccessResponse(res, { message: "Posts fetched succesfully!", content: rows });
 	});
 });
 
@@ -30,19 +31,16 @@ router.get("/api/posts/:thread_id", (req, res) => {
 
 	db.all(query, params, function (err: Error | null, rows: post[]) {
 		if (err) {
-			res.status(500).json({
-				message: `GET /api/posts/${params[0]} failed!`,
-				error: err.message,
-			});
+			sendErrorResponse(res, 500, { message: `GET /api/posts/${params[0]} failed!`, error: err.message });
             return;
 		}
 
 		if (!rows) {
-			res.status(404).json({ error: `Thread ${params[0]} not found!` });
-            return;
+			sendErrorResponse(res, 404, { message: `No posts found on thread ${params[0]}!`, error: `No posts found on thread ${params[0]}!` });
+			return;
 		}
 
-		res.status(200).json({ posts: rows });
+		sendSuccessResponse(res, { message: `Posts on thread ${params[0]} fetched succesfully!`, content: rows });
 	});
 });
 
@@ -58,16 +56,14 @@ router.post("/api/posts/:thread_id", (req, res) => {
 
 	db.run(query, params, function (err: Error | null) {
 		if (err) {
-			res
-				.status(500)
-				.json({ message: "POST /api/posts/ failed!", error: err.message });
+			sendErrorResponse(res, 500, { message: "POST /api/posts/ failed!", error: err.message });
             return;
 		}
 
 		console.log(
 			`api: creating new post in thread ${params[0]} // post created! // content: ${content}`
 		);
-		res.status(200).json({
+		sendSuccessResponse(res, {
 			message: `New post on thread ${params[0]} created succesfully!`,
 			content: {
 				thread_id: params[0],
