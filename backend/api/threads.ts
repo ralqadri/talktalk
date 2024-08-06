@@ -25,6 +25,25 @@ router.get("/api/threads", (req, res) => {
 	});
 });
 
+// api: get random thread
+router.get("/api/threads/random", (req, res) => {
+	const query = `SELECT * FROM threads ORDER BY RANDOM() LIMIT 1`;
+
+	db.get(query, [], function (err: Error | null, row: thread) {
+		if (err) {
+			sendErrorResponse(res, 500, {
+				message: "GET /api/threads/random failed!",
+				error: err.message,
+			});
+		}
+
+		sendSuccessResponse(res, {
+			message: "Random thread fetched succesfully!",
+			content: row,
+		});
+	});
+});
+
 // api: get specific thread
 router.get("/api/threads/:id", (req, res) => {
 	const query = `SELECT * FROM threads WHERE id = ?`;
@@ -85,25 +104,6 @@ router.post("/api/threads", (req, res) => {
 		sendSuccessResponse(res, {
 			message: "New thread created succesfully!",
 			content: newThread,
-		});
-	});
-});
-
-// api: get random thread
-router.get("/api/threads/random", (req, res) => {
-	const query = `SELECT * FROM threads ORDER BY RANDOM() LIMIT 1`;
-
-	db.get(query, [], function (err: Error | null, row: thread) {
-		if (err) {
-			sendErrorResponse(res, 500, {
-				message: "GET /api/threads/random failed!",
-				error: err.message,
-			});
-		}
-
-		sendSuccessResponse(res, {
-			message: "Random thread fetched succesfully!",
-			content: row,
 		});
 	});
 });
