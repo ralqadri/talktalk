@@ -90,7 +90,7 @@ router.post("/api/threads", (req, res) => {
 });
 
 // api: get random thread
-router.post("/api/threads/random", (req, res) => {
+router.get("/api/threads/random", (req, res) => {
 	const query = `SELECT * FROM threads ORDER BY RANDOM() LIMIT 1`;
 
 	db.get(query, [], function (err: Error | null, row: thread) {
