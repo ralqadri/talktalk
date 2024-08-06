@@ -16,7 +16,7 @@
 		<a href="/" class="link-home">home</a>
 		<a href="/thread/create" class="link-newthread">start_thread</a>
 		<!-- TODO: random thread link -->
-		<a href="/" class="link-newthread">random</a>
+		<a href="/thread/random" class="link-newthread">random</a>
 	</div>
 	<div class="subtitle">{subtitle}</div>
 </div>
