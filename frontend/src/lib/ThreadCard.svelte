@@ -1,18 +1,20 @@
 <script>
-	export let threadInfo;
+	export let thread;
 </script>
 
 <div class="thread-card">
 	<div class="meta thread-meta">
-		ID: #{threadInfo.id} —
-		{new Date(threadInfo.created_at).toLocaleString()}
+		<a href={`/thread/${thread.id}`}>
+			ID: #{thread.id} —
+			{new Date(thread.created_at).toLocaleString()}
+		</a>
 	</div>
 	<div class="thread-info">
 		<div class="thread-title">
-			<h1>{threadInfo.title}</h1>
+			<h1>{thread.title}</h1>
 		</div>
 		<div class="thread-content">
-			<h2>{threadInfo.content}</h2>
+			{thread.content}
 		</div>
 	</div>
 </div>
@@ -21,6 +23,14 @@
 	.meta {
 		font-size: 0.75em;
 		color: var(--meta-text);
+	}
+
+	.meta a {
+		color: inherit;
+	}
+
+	.meta a:hover {
+		color: var(--link-hover);
 	}
 
 	.thread-card {
@@ -33,5 +43,9 @@
 
 	.thread-title {
 		color: var(--thread-title);
+	}
+
+	.thread-content {
+		font-size: 1.2em;
 	}
 </style>

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade } from "svelte/transition";
 	import type { PageData } from "./$types";
 	import PostCard from "$lib/PostCard.svelte";
 	import ThreadCard from "$lib/ThreadCard.svelte";
-	import { apiFetch } from '$lib';
-	import { isPost } from '$customTypes/posts';
+	import { apiFetch } from "$lib";
+	import { isPost } from "$customTypes/posts";
 
 	export let data: PageData;
 
@@ -52,7 +52,7 @@
 </script>
 
 <div class="thread-container">
-	<ThreadCard {threadInfo} />
+	<ThreadCard thread={threadInfo} />
 
 	{#if error}
 		<p transition:fade>{error}</p>
@@ -71,8 +71,9 @@
 				on:keydown={handleCtrlEnter}
 			></textarea>
 			<button type="submit">Post</button>
-			<button class="refresh" on:click|preventDefault={() => window.location.reload()}
-				>Refresh</button
+			<button
+				class="refresh"
+				on:click|preventDefault={() => window.location.reload()}>Refresh</button
 			>
 			{#if empty_error}
 				<span transition:fade>{empty_error}</span>
