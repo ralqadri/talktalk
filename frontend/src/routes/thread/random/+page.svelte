@@ -20,7 +20,4 @@
 	}
 
 	fetchData();
-
-	let title = "";
-	let content = "";
 </script>
