@@ -12,7 +12,7 @@
 
 	async function createPost() {
 		if (!content) {
-			empty_error = "Content is required!";
+			empty_error = "content is required!";
 			setTimeout(() => {
 				empty_error = "";
 			}, 3000);
@@ -70,10 +70,10 @@
 				bind:value={content}
 				on:keydown={handleCtrlEnter}
 			></textarea>
-			<button type="submit">Post</button>
+			<button type="submit">post</button>
 			<button
 				class="refresh"
-				on:click|preventDefault={() => window.location.reload()}>Refresh</button
+				on:click|preventDefault={() => window.location.reload()}>refresh</button
 			>
 			{#if empty_error}
 				<span transition:fade>{empty_error}</span>
@@ -117,17 +117,18 @@
 		color: var(--text);
 		border: 1px solid var(--dark-border);
 
-		padding: 0.5em;
-		cursor: pointer;
-
 		margin-left: auto;
+		padding: 0.5em;
+
+		cursor: pointer;
 	}
 	.post-create button.refresh {
 		width: 10%;
 	}
 
 	.post-create button:hover {
-		border: 1px solid white;
+		border: 1px solid var(--link-hover);
+		color: var(--link-hover);
 	}
 
 	@media (max-width: 1000px) {

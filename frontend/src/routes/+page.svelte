@@ -7,7 +7,7 @@
 </script>
 
 <div class="header">
-	<h2>Threads</h2>
+	<h2>threads</h2>
 </div>
 <div class="threads_section">
 	{#if error}
