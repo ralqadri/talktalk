@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 config.json
+
+# SQLite Database files
+*.sqlite
