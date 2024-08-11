@@ -131,5 +131,7 @@ dist
 
 config.json
 
-# SQLite Database files
+# SQLite/database files
 *.sqlite
+*.db
+backend/*.db
