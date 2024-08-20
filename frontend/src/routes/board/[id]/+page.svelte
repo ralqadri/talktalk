@@ -3,6 +3,7 @@
     import { isThread } from "$customTypes/threads";
     import { apiFetch } from "$lib";
 	import { fade } from "svelte/transition";
+	import BoardCard from "$lib/BoardCard.svelte";
 	import CatalogCard from "$lib/CatalogCard.svelte";
 
 	export let data: PageData;
@@ -39,9 +40,7 @@
 	let thread_error = "";
 </script>
 
-<div class="header">
-	<h2>boards</h2>
-</div>
+<BoardCard board={boardInfo} />
 <div class="threads_section">
 	{#if error}
 		<p>{error}</p>
@@ -146,12 +145,5 @@
 			width: 100%;
 			margin-bottom: 0.15em;
 		}
-	}
-
-	.header {
-		display: flex;
-		justify-content: center;
-
-		margin-bottom: 1em;
 	}
 </style>
