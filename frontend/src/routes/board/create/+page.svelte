@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { PageData } from "./$types";
 	import { isBoard } from "$customTypes/boards";
 	import { apiFetch } from "$lib";
 	import { fade } from "svelte/transition";
@@ -30,24 +31,63 @@
 	let name = "";
 	let description = "";
 	let error = "";
+
+	export let data: PageData;
+	let authenticated = data.authenticated;
+	let username = "";
+	let password = "";
+
+	async function authenticate() {
+		const res = await apiFetch(fetch, (obj): obj is { isAdmin?: boolean } => obj && (!obj.isAdmin || typeof obj.isAdmin === "boolean"), "/api/auth", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ username, password }),
+		});
+
+		if (res.ok)
+			authenticated = true;
+		else {
+			console.error(res.error);
+			error = `Failed to authenticate: ${res.error}`;
+		}
+	}
 </script>
 
-<div class="header">
-	<h2>start a new board</h2>
-</div>
-<form class="board-create" on:submit|preventDefault={createBoard}>
-	<div class="name-container">
-		<label for="name">name</label>
-		<input type="text" id="name" bind:value={name} />
+{#if authenticated}
+	<div class="header">
+		<h2>start a new board</h2>
 	</div>
-	<div class="description-container">
-		<label for="description">description</label>
-		<textarea id="description" bind:value={description}></textarea>
-	</div>
-	<div class="submit">
-		<button type="submit">create board</button>
-	</div>
-</form>
+	<form class="board-create" on:submit|preventDefault={createBoard}>
+		<div class="name-container">
+			<label for="name">name</label>
+			<input type="text" id="name" bind:value={name} />
+		</div>
+		<div class="description-container">
+			<label for="description">description</label>
+			<textarea id="description" bind:value={description}></textarea>
+		</div>
+		<div class="submit">
+			<button type="submit">create board</button>
+		</div>
+	</form>
+{:else}
+	<form class="board-create" on:submit|preventDefault={authenticate}>
+		<p>You must be logged in to create a board.<br>Enter your credentials below:</p>
+		<div class="username-container">
+			<label for="username">username</label>
+			<input type="text" id="username" bind:value={username} />
+		</div>
+		<div class="password-container">
+			<label for="password">password</label>
+			<input id="password" bind:value={password} type="password" />
+		</div>
+		<div class="submit">
+			<button type="submit">login</button>
+		</div>
+	</form>
+{/if}
 {#if error}
 	<p transition:fade>{error}</p>
 {/if}
@@ -84,9 +124,8 @@
 		height: 30vh;
 	}
 
-	.name-container {
+	.name-container, .username-container, .password-container {
 		display: flex;
-		flex-direction: row;
 		gap: 0.5em;
 	}
 

@@ -1,19 +1,11 @@
-import type { LayoutServerLoad } from './$types';
-import { isBoard, type board } from "$customTypes/boards";
+import type { LayoutServerLoad } from "./$types";
 import { apiFetch } from '$lib';
-import { isArray } from '$customTypes';
 
 export const load: LayoutServerLoad = async ({ fetch }) => {
-    let boards: board[] = [];
-    let error: string = "";
-    const res = await apiFetch(fetch, (obj) => isArray(obj, isBoard), "/api/boards");
-    if (res.ok)
-        boards = res.content;
-    else
-        error = res.error;
+    let authenticated = false;
+    const adminRes = await apiFetch(fetch, (obj): obj is { isAdmin?: boolean } => obj && (!obj.isAdmin || typeof obj.isAdmin === "boolean"), "/api/auth");
+    if (adminRes.ok && adminRes.content.isAdmin)
+        authenticated = true;
 
-    return { 
-        boards,
-        error,
-    };
+    return { authenticated };
 };

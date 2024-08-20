@@ -5,7 +5,20 @@ import config from "../../config.json";
 
 const router = express.Router();
 
+router.get("/api/auth", (req, res) => sendSuccessResponse(res, {
+    message: "Authentication status fetched",
+    content: { isAdmin: req.session.isAdmin },
+}));
+
 router.post("/api/auth", async (req, res) => {
+    if (req.session.isAdmin) {
+        sendSuccessResponse(res, {
+            message: "Already authenticated",
+            content: { isAdmin: req.session.isAdmin },
+        });
+        return;
+    }
+
     const { username, password } = req.body;
     if (username !== config.admin.username) {
         sendErrorResponse(res, 401, {
