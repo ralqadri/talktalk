@@ -1,5 +1,7 @@
-<script>
-	export let post;
+<script lang="ts">
+  	import type { post } from "$customTypes/posts";
+
+	export let post: post;
 </script>
 
 <div class="post-card">

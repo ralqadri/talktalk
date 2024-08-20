@@ -1,5 +1,7 @@
-<script>
-	export let thread;
+<script lang="ts">
+  	import type { thread } from "$customTypes/threads";
+
+	export let thread: thread;
 </script>
 
 <div class="thread-card">
