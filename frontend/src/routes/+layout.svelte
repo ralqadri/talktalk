@@ -50,6 +50,22 @@
 		overflow-wrap: break-word;
 	}
 
+	:global(button) {
+		background: var(--input-background);
+		color: var(--text);
+		border: 1px solid var(--dark-border);
+
+		margin-left: auto;
+		padding: 0.5em;
+
+		cursor: pointer;
+	}
+
+	:global(button:hover) {
+		border: 1px solid var(--link-hover);
+		color: var(--link-hover);
+	}
+
 	:global(body) {
 		line-height: 1.5;
 		-webkit-font-smoothing: antialiased;

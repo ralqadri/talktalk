@@ -7,7 +7,7 @@
 
 	export let data: PageData;
 
-	const { error, threads } = data;
+	const { error, threads, boardInfo } = data;
 
     async function createThread() {
 		if (!title || !content) {
@@ -18,7 +18,7 @@
 			return;
 		}
 
-		const res = await apiFetch(fetch, isThread, "/api/threads", {
+		const res = await apiFetch(fetch, isThread, `/api/threads/${boardInfo.id}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -119,18 +119,6 @@
 
 	.submit button {
 		width: 100%;
-		/* margin-left: auto; */
-		padding: 0.5em;
-		cursor: pointer;
-
-		background: var(--input-background);
-		color: var(--text);
-		border: 1px solid var(--dark-border);
-	}
-
-	.thread-create button:hover {
-		border: 1px solid var(--link-hover);
-		color: var(--link-hover);
 	}
 
 	@media (max-width: 1000px) {

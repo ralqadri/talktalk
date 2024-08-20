@@ -113,22 +113,10 @@
 
 	.post-create button {
 		width: 20%;
-		background: var(--input-background);
-		color: var(--text);
-		border: 1px solid var(--dark-border);
-
-		margin-left: auto;
-		padding: 0.5em;
-
-		cursor: pointer;
 	}
+
 	.post-create button.refresh {
 		width: 10%;
-	}
-
-	.post-create button:hover {
-		border: 1px solid var(--link-hover);
-		color: var(--link-hover);
 	}
 
 	@media (max-width: 1000px) {
