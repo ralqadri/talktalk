@@ -25,8 +25,7 @@
 		);
 
 		if (res.ok) {
-			console.log(window.location.href, `/${objectType}/${res.content.id}`);
-			// window.location.href = `/${objectType}/${res.content.id}`;
+			window.location.href = `/${objectType}/${res.content.id}`;
 		} else
 			console.error(res.error);
 	}
