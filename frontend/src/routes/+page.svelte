@@ -1,26 +1,26 @@
 <script lang="ts">
-	import CatalogThreadCard from "$lib/CatalogThreadCard.svelte";
+	import CatalogBoardCard from "$lib/CatalogBoardCard.svelte";
 	import type { PageData } from "./$types";
 	export let data: PageData;
 
-	const { error, threads } = data;
+	const { error, boards } = data;
 </script>
 
 <div class="header">
-	<h2>threads</h2>
+	<h2>boards</h2>
 </div>
-<div class="threads_section">
+<div class="boards_section">
 	{#if error}
 		<p>{error}</p>
 	{:else}
-		{#each threads as thread}
-			<CatalogThreadCard {thread} />
+		{#each boards as board}
+			<CatalogBoardCard {board} />
 		{/each}
 	{/if}
 </div>
 
 <style>
-	.threads_section {
+	.boards_section {
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction: row;
@@ -29,7 +29,7 @@
 	}
 
 	@media (max-width: 1000px) {
-		.threads_section {
+		.boards_section {
 			flex-direction: column;
 		}
 	}
