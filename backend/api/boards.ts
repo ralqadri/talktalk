@@ -96,13 +96,15 @@ router.post("/api/boards", (req, res) => {
             `api: creating new board // board created! // name: ${name} // description: ${description}`
         );
 
+        const newBoard: board = {
+            id: this.lastID,
+            name,
+            description,
+            created_at: new Date().toISOString(),
+        };
         sendSuccessResponse(res, {
             message: "Board created succesfully!",
-            content: {
-                id: this.lastID,
-                name,
-                description,
-            },
+            content: newBoard,
         });
     });
 });
