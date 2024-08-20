@@ -44,12 +44,42 @@ router.get("/api/threads/random", (req, res) => {
 	});
 });
 
+// api: get threads in specific board
+router.get("/api/threads/board/:board_id", (req, res) => {
+	const query = `SELECT * FROM threads WHERE board_id = ?`;
+	const params = [req.params.board_id];
+
+	db.all(query, params, function (err: Error | null, rows?: thread[]) {
+		if (err) {
+			sendErrorResponse(res, 500, {
+				message: `GET /api/threads/board/${params[0]} failed!`,
+				error: err.message,
+			});
+			return;
+		}
+
+		if (!rows) {
+			sendErrorResponse(res, 404, {
+				message: `No threads found in board ${params[0]}!`,
+				error: `No threads found in board ${params[0]}!`,
+			});
+			return;
+		}
+
+		sendSuccessResponse(res, {
+			message: `Threads in board ${params[0]} fetched succesfully!`,
+			content: rows,
+		});
+	}
+	);
+});
+
 // api: get specific thread
 router.get("/api/threads/:id", (req, res) => {
 	const query = `SELECT * FROM threads WHERE id = ?`;
 	const params = [req.params.id];
 
-	db.get(query, params, function (err: Error | null, row: thread) {
+	db.get(query, params, function (err: Error | null, row?: thread) {
 		if (err) {
 			sendErrorResponse(res, 500, {
 				message: `GET /api/threads/${params[0]} failed!`,
@@ -74,13 +104,13 @@ router.get("/api/threads/:id", (req, res) => {
 });
 
 // api: create new thread
-router.post("/api/threads", (req, res) => {
+router.post("/api/threads/:board_id", (req, res) => {
 	const { title, content } = req.body;
-	const query = `INSERT INTO threads (title, content) VALUES (?, ?)`;
-	const params = [title, content];
+	const query = `INSERT INTO threads (board_id, title, content) VALUES (?, ?)`;
+	const params = [req.params.board_id, title, content];
 
 	console.log(
-		`api: creating new thread // title: ${title} // content: ${content}`
+		`api: creating new thread in board ${params[0]} // title: ${title} // content: ${content}`
 	);
 
 	db.run(query, params, function (err: Error | null) {
@@ -92,17 +122,18 @@ router.post("/api/threads", (req, res) => {
 			return;
 		}
 		console.log(
-			`api: creating new thread // thread created! // title: ${title}`
+			`api: creating new thread in board ${params[0]} // thread created! // title: ${title} // content: ${content}`
 		);
 
 		const newThread: thread = {
 			id: this.lastID,
+			board_id: parseInt(params[0]),
 			title,
 			content,
 			created_at: new Date().toISOString(),
 		};
 		sendSuccessResponse(res, {
-			message: "New thread created succesfully!",
+			message: `New thread on board ${params[0]} created succesfully!`,
 			content: newThread,
 		});
 	});

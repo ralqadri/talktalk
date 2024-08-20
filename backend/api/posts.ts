@@ -29,7 +29,7 @@ router.get("/api/posts/:thread_id", (req, res) => {
 	const query = `SELECT * FROM posts WHERE thread_id = ? ORDER BY id ASC`;
 	const params = [req.params.thread_id];
 
-	db.all(query, params, function (err: Error | null, rows: post[]) {
+	db.all(query, params, function (err: Error | null, rows?: post[]) {
 		if (err) {
 			sendErrorResponse(res, 500, { message: `GET /api/posts/${params[0]} failed!`, error: err.message });
             return;
