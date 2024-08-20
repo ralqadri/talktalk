@@ -2,6 +2,7 @@ import express from "express";
 import { board } from "../../types/boards";
 import { sendErrorResponse, sendSuccessResponse } from "../utils";
 import db from "../db";
+import { isAdmin } from "../middleware";
 
 const router = express.Router();
 
@@ -82,7 +83,7 @@ router.get("/api/boards/:id", (req, res) => {
 });
 
 // api: create new board
-router.post("/api/boards", (req, res) => {
+router.post("/api/boards", isAdmin, (req, res) => {
     const { name, description } = req.body;
     const query = `INSERT INTO boards (name, description) VALUES (?, ?)`;
     const params = [name, description];

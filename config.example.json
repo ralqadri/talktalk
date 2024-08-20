@@ -4,5 +4,10 @@
     },
     "backend": {
         "port": 3001
+    },
+    "admin": {
+        "username": "admin",
+        "password": "YOUR HASHED PASSWORD HERE",
+        "secret": "YOUR SECRET HERE"
     }
 }
