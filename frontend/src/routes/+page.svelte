@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CatalogBoardCard from "$lib/CatalogBoardCard.svelte";
+	import CatalogCard from "$lib/CatalogCard.svelte";
 	import type { PageData } from "./$types";
 	export let data: PageData;
 
@@ -14,7 +14,13 @@
 		<p>{error}</p>
 	{:else}
 		{#each boards as board}
-			<CatalogBoardCard {board} />
+			<CatalogCard
+				id={board.id}
+				title={board.name}
+				content={board.description}
+				created_at={board.created_at}
+				link={`/board/${board.id}`}
+			/>
 		{/each}
 	{/if}
 </div>

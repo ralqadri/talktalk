@@ -3,7 +3,7 @@
     import { isThread } from "$customTypes/threads";
     import { apiFetch } from "$lib";
 	import { fade } from "svelte/transition";
-	import CatalogThreadCard from "$lib/CatalogThreadCard.svelte";
+	import CatalogCard from "$lib/CatalogCard.svelte";
 
 	export let data: PageData;
 
@@ -47,7 +47,13 @@
 		<p>{error}</p>
 	{:else}
 		{#each threads as thread}
-			<CatalogThreadCard {thread} />
+			<CatalogCard
+				id={thread.id}
+				title={thread.title}
+				content={thread.content}
+				created_at={thread.created_at}
+				link={`/thread/${thread.id}`}
+			/>
 		{/each}
 	{/if}
 
