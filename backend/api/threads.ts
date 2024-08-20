@@ -27,14 +27,22 @@ router.get("/api/threads", (req, res) => {
 
 // api: get random thread
 router.get("/api/threads/random", (req, res) => {
-	const query = `SELECT * FROM threads ORDER BY RANDOM() LIMIT 1`;
+	const query = `SELECT id FROM threads ORDER BY RANDOM() LIMIT 1`;
 
-	db.get(query, [], function (err: Error | null, row: thread) {
+	db.get(query, [], function (err: Error | null, row?: { id: number }) {
 		if (err) {
 			sendErrorResponse(res, 500, {
 				message: "GET /api/threads/random failed!",
 				error: err.message,
 			});
+		}
+
+		if (!row) {
+			sendErrorResponse(res, 404, {
+				message: "No thread found!",
+				error: "No thread found!",
+			});
+			return;
 		}
 
 		sendSuccessResponse(res, {
@@ -106,7 +114,7 @@ router.get("/api/threads/:id", (req, res) => {
 // api: create new thread
 router.post("/api/threads/:board_id", (req, res) => {
 	const { title, content } = req.body;
-	const query = `INSERT INTO threads (board_id, title, content) VALUES (?, ?)`;
+	const query = `INSERT INTO threads (board_id, title, content) VALUES (?, ?, ?)`;
 	const params = [req.params.board_id, title, content];
 
 	console.log(

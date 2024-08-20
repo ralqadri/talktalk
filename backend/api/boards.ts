@@ -27,14 +27,22 @@ router.get("/api/boards", (req, res) => {
 
 // api: get random board
 router.get("/api/boards/random", (req, res) => {
-    const query = `SELECT * FROM boards ORDER BY RANDOM() LIMIT 1`;
+    const query = `SELECT id FROM boards ORDER BY RANDOM() LIMIT 1`;
 
-    db.get(query, [], function (err: Error | null, row: board) {
+    db.get(query, [], function (err: Error | null, row?: { id: number }) {
         if (err) {
             sendErrorResponse(res, 500, {
                 message: "GET /api/boards/random failed!",
                 error: err.message,
             });
+        }
+
+        if (!row) {
+            sendErrorResponse(res, 404, {
+                message: "No board found!",
+                error: "No board found!",
+            });
+            return;
         }
 
         sendSuccessResponse(res, {
