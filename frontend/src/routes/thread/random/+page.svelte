@@ -3,7 +3,7 @@
 	import { apiFetch } from "$lib";
 	import { onMount } from "svelte";
 
-	async function fetchData() {
+	async function fetchRandomThread() {
 		const res = await apiFetch(fetch, isThread, "/api/threads/random", {
 			method: "GET",
 			headers: {
@@ -11,14 +11,11 @@
 			},
 		});
 
-		if (res.ok) {
+		if (res.ok)
 			window.location.href = `/thread/${res.content.id}`;
-		} else {
+		else
 			console.error(res.error);
-		}
 	}
 
-	onMount(() => {
-		fetchData();
-	});
+	onMount(async () => await fetchRandomThread());
 </script>
