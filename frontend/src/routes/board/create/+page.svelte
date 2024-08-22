@@ -17,7 +17,7 @@
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ name, description }),
+			body: JSON.stringify({ name, description, board_code }),
 		});
 
 		if (res.ok) window.location.href = `/board/${res.content.id}`;
