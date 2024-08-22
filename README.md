@@ -5,8 +5,8 @@ An anonymous textboard/forum project, based on Express.js.
 ## Running
 
 0. **Copy and paste `config.example.json` to `config.json` and fill it with your desired port(s) for each backend and the frontend server(s).**
-   
-   You can generate a valid hashed password by running `node generate_password.ts` in the `backend` directory.
+
+   To allow You can generate a valid hashed password by running `node generate_password.ts` in the `backend` directory. You should insert your hashed password to your config.json file afterwards.
 
 1. **Install dependencies**
 
@@ -38,3 +38,9 @@ npm run dev
 4. **Access the application**
 
    Open your browser and navigate to `http://localhost:<FRONTEND_PORT>`
+
+## To-dos
+
+- [ ] Board: change board url to use `board_code` instead of using `id`
+- [ ] Admin: create moderating privileges (delete/etc) if admin is logged in
+- [ ] CSS fixes
