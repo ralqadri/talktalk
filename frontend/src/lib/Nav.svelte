@@ -1,5 +1,5 @@
 <script lang="ts">
-  	import { apiFetch } from "$lib";
+	import { apiFetch } from "$lib";
 	export let title: string = "talktalk";
 	let subtitles: string[] = [
 		"you gotta talk somehow",
@@ -11,11 +11,12 @@
 		subtitles[Math.floor(Math.random() * subtitles.length)];
 
 	type Random = { id: number };
-	async function fetchRandom (objectType: "thread" | "board") {
+	async function fetchRandom(objectType: "thread" | "board") {
 		const res = await apiFetch(
-			fetch, 
-			(obj): obj is Random => obj && typeof obj === "object" && typeof obj.id === "number", 
-			`/api/${objectType}s/random`, 
+			fetch,
+			(obj): obj is Random =>
+				obj && typeof obj === "object" && typeof obj.id === "number",
+			`/api/${objectType}s/random`,
 			{
 				method: "GET",
 				headers: {
@@ -26,8 +27,7 @@
 
 		if (res.ok) {
 			window.location.href = `/${objectType}/${res.content.id}`;
-		} else
-			console.error(res.error);
+		} else console.error(res.error);
 	}
 </script>
 
@@ -35,18 +35,12 @@
 	<div class="name">[{title}]</div>
 	<div class="nav-links">
 		<a href="/" class="link-home">home</a>
-		<button
-			class="link-random"
-			on:click={() => fetchRandom("board")}
-		>
+		<a class="link-random" on:click={() => fetchRandom("board")}>
 			random board
-		</button>
-		<button
-			class="link-random"
-			on:click={() => fetchRandom("thread")}
-		>
+		</a>
+		<a class="link-random" on:click={() => fetchRandom("thread")}>
 			random thread
-		</button>
+		</a>
 	</div>
 	<div class="subtitle">{subtitle}</div>
 </div>
@@ -101,6 +95,7 @@
 
 	.link-random:hover {
 		color: var(--link-hover);
+		cursor: pointer;
 	}
 
 	@media (max-width: 600px) {
