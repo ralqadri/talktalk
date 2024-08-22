@@ -13,6 +13,7 @@ export function isBoard(obj: any): obj is board {
 		typeof obj.id === "number" &&
 		typeof obj.name === "string" &&
 		typeof obj.description === "string" &&
+		typeof obj.board_code === "string" &&
 		typeof obj.created_at === "string"
 	);
 }
