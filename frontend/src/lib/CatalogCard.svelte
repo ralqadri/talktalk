@@ -1,24 +1,30 @@
 <script lang="ts">
-    export let [id, title, content, created_at, link]: [number, string, string, string, string] = [0, "", "", "", ""];
+	export let [id, title, content, created_at, link]: [
+		number,
+		string,
+		string,
+		string,
+		string,
+	] = [0, "", "", "", ""];
 </script>
 
 <a href={link} class="catalogue-card-link">
-    <div class="catalogue-card">
-        <div class="meta catalogue-card-meta">
-            <a href={link}>
-                ID: #{id} —
-                {new Date(created_at).toLocaleString()}
-            </a>
-        </div>
-        <div class="catalogue-card-info">
-            <div class="catalogue-card-title">
-                <h1>{title}</h1>
-            </div>
-            <div class="catalogue-card-content">
-                {content}
-            </div>
-        </div>
-    </div>
+	<div class="catalogue-card">
+		<div class="meta catalogue-card-meta">
+			<a href={link}>
+				ID: #{id} —
+				{new Date(created_at).toLocaleString()}
+			</a>
+		</div>
+		<div class="catalogue-card-info">
+			<div class="catalogue-card-title">
+				<h1>{title}</h1>
+			</div>
+			<div class="catalogue-card-content">
+				{content}
+			</div>
+		</div>
+	</div>
 </a>
 
 <style>
@@ -71,10 +77,10 @@
 		word-break: break-all;
 	}
 
-    @media (max-width: 1000px) {
-        .catalogue-card {
-            width: 100%;
-            height: auto; /* Adjust height as needed */
-        }
-    }
+	@media (max-width: 1000px) {
+		.catalogue-card {
+			width: 100%;
+			height: auto; /* Adjust height as needed */
+		}
+	}
 </style>

@@ -1,16 +1,13 @@
 import sqlite3 from "sqlite3";
 
 const db = new sqlite3.Database("board.db", (err) => {
-	if (err)
-		console.error(`Error loading database: ${err.message}`);
+	if (err) console.error(`Error loading database: ${err.message}`);
 	else {
 		console.log("Connected to the database.");
 		// TODO: Maybe fix this from the database side instead of here
 		db.run("PRAGMA foreign_keys = ON", (err) => {
-			if (err)
-				console.error(`Failed to enable foreign keys!: ${err.message}`);
-			else
-				console.log("Foreign keys now enabled!");
+			if (err) console.error(`Failed to enable foreign keys!: ${err.message}`);
+			else console.log("Foreign keys now enabled!");
 		});
 	}
 });
@@ -22,6 +19,7 @@ db.serialize(() => {
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL,
 		description TEXT NOT NULL,
+		board_code TEXT NOT NULL,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 		)
 	`);
